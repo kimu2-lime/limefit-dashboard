@@ -167,47 +167,6 @@ body.mobile .search-box{width:100%}
   .person-bar{padding:0 12px}
 }
 
-/* ===== YEAR TABS ===== */
-.year-tabs{display:flex;gap:3px}
-.year-tab{padding:5px 12px;border-radius:6px;border:1.5px solid #e0e0ec;background:transparent;color:#888;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s}
-.year-tab.active{background:#1a1a2e;border-color:#1a1a2e;color:#fff}
-.year-tab:hover:not(.active){border-color:#667eea;color:#667eea}
-
-/* ===== TYPE FILTER BAR ===== */
-.type-bar{background:#f8f8fc;border-bottom:1px solid #f0f0f8;padding:0 24px}
-.type-bar-inner{max-width:1440px;margin:0 auto;display:flex;align-items:center;gap:6px;height:38px;overflow-x:auto;scrollbar-width:none}
-.type-bar-inner::-webkit-scrollbar{display:none}
-.type-btn{flex-shrink:0;padding:4px 14px;border-radius:14px;border:1.5px solid #e0e0ec;background:#fff;color:#666;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
-.type-btn.active-all{background:#667eea;border-color:#667eea;color:#fff}
-.type-btn.active-direct{background:#e53e3e;border-color:#e53e3e;color:#fff}
-.type-btn.active-franchise{background:#2b6cb0;border-color:#2b6cb0;color:#fff}
-.type-btn:hover:not(.active-all):not(.active-direct):not(.active-franchise){border-color:#667eea;color:#667eea}
-
-/* ===== STORE TYPE BADGE ===== */
-.store-type-badge{display:inline-block;font-size:9px;font-weight:800;border-radius:3px;padding:1px 5px;margin-left:5px;vertical-align:middle;letter-spacing:.5px}
-.store-type-badge.direct{background:#fff5f5;color:#c53030;border:1px solid #fed7d7}
-.store-type-badge.franchise{background:#ebf8ff;color:#2c5282;border:1px solid #bee3f8}
-
-/* ===== STATS PANEL ===== */
-.stats-panel{background:#fff;border:1.5px solid #eaeaf4;border-radius:12px;padding:12px 20px;margin-bottom:14px;display:flex;align-items:center;gap:0;flex-wrap:wrap}
-.stats-title{font-size:11px;font-weight:700;color:#aaa;letter-spacing:1px;text-transform:uppercase;margin-right:20px;flex-shrink:0}
-.stat-group{display:flex;align-items:center;gap:16px;flex-wrap:wrap;flex:1}
-.stat-item{display:flex;flex-direction:column;align-items:flex-start;min-width:120px;padding:4px 16px;border-left:1px solid #f0f0f8}
-.stat-item:first-child{border-left:none;padding-left:0}
-.stat-label{font-size:10px;color:#bbb;font-weight:600;margin-bottom:3px}
-.stat-row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.stat-avg{font-size:15px;font-weight:700;color:#1a1a2e}
-.stat-med{font-size:12px;color:#888;font-weight:600}
-.stat-med-label{font-size:9px;color:#bbb;margin-left:2px}
-.stat-count{font-size:11px;color:#bbb;margin-left:8px;flex-shrink:0;align-self:center}
-
-/* ===== TOTALS ROW ===== */
-.totals-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
-.total-chip{font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;white-space:nowrap}
-.total-chip.all{background:#f0f2ff;color:#667eea}
-.total-chip.direct{background:#fff5f5;color:#c53030}
-.total-chip.franchise{background:#ebf8ff;color:#2c5282}
-
 /* ===== SETTINGS BUTTON & MODAL ===== */
 .settings-btn{padding:6px 12px;border-radius:8px;border:1.5px solid #e0e0ec;background:transparent;color:#888;font-size:13px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px}
 .settings-btn:hover{border-color:#667eea;color:#667eea}
@@ -279,11 +238,11 @@ body.mobile .search-box{width:100%}
         <div><div class="brand-name">LIME FIT</div><div class="brand-sub">売上ダッシュボード</div></div>
       </div>
       <div class="header-spacer"></div>
-      <div class="year-tabs" id="yearTabs"></div>
-      <div class="month-tabs" id="monthTabs"></div>
+      <div class="month-tabs" id="monthTabs">
       <button class="refresh-btn" onclick="openSettings()" title="Google Sheetsと接続">⚙️ 目標設定</button>
       <button class="refresh-btn" id="refreshBtn" onclick="fetchTargets()" title="最新目標データを取得" style="display:none">🔄 目標更新</button>
       <span class="target-loaded-badge" id="targetBadge">目標あり</span>
+
       <div class="view-switch">
         <button class="vs-btn active" id="vsPC" onclick="setView('pc')">🖥 PC</button>
         <button class="vs-btn" id="vsSP" onclick="setView('sp')">📱 スマホ</button>
@@ -294,11 +253,6 @@ body.mobile .search-box{width:100%}
   <!-- 担当者フィルター -->
   <div class="person-bar">
     <div class="person-bar-inner" id="personBar"></div>
-  </div>
-
-  <!-- 直営/加盟フィルター -->
-  <div class="type-bar" id="typeBar" style="display:none">
-    <div class="type-bar-inner" id="typeBarInner"></div>
   </div>
 
   <div class="breadcrumb" id="breadcrumb">
@@ -312,37 +266,9 @@ body.mobile .search-box{width:100%}
       <div class="list-header">
         <div>
           <div class="list-title" id="listTitle">店舗一覧</div>
-          <div id="totalsRow" class="totals-row" style="margin-top:6px"></div>
           <div class="list-meta" id="listMeta"></div>
         </div>
         <input type="text" class="search-box" id="searchBox" placeholder="店舗名で絞り込み..." oninput="filterCards()">
-      </div>
-      <div class="stats-panel" id="statsPanel" style="display:none">
-        <div class="stats-title">統計</div>
-        <div class="stat-group">
-          <div class="stat-item">
-            <div class="stat-label">総売上</div>
-            <div class="stat-row">
-              <span class="stat-avg" id="statAvgSales"></span>
-              <span class="stat-med" id="statMedSales"></span><span class="stat-med-label" id="statMedSalesLbl"></span>
-            </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">新規数</div>
-            <div class="stat-row">
-              <span class="stat-avg" id="statAvgNew"></span>
-              <span class="stat-med" id="statMedNew"></span><span class="stat-med-label" id="statMedNewLbl"></span>
-            </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">新規契約率</div>
-            <div class="stat-row">
-              <span class="stat-avg" id="statAvgRate"></span>
-              <span class="stat-med" id="statMedRate"></span><span class="stat-med-label" id="statMedRateLbl"></span>
-            </div>
-          </div>
-        </div>
-        <span class="stat-count" id="statCount"></span>
       </div>
       <div class="cards-grid" id="cardsGrid"></div>
     </div>
@@ -439,25 +365,16 @@ body.mobile .search-box{width:100%}
 <script>
 const DATA = {"months":["202602","202603","202604"],"stores":["-LIME-[小顔・たるみ/毛穴洗浄/ハーブピーリング]","LIME高崎ByAnela【アネラ】","【ニキビケア専門｜ハーブピーリング】韓国肌管理 Belle 水戸","【ニキビケア専門｜ハーブピーリング】韓国肌管理 Belle新潟","【ニキビケア専門｜ハーブピーリング】韓国肌管理Belle蒲田","【ニキビ・毛穴ケア｜ハーブピーリング】韓国肌管理Belle 静岡","【ハーブピーリング l ニキビケア】韓国肌管理Belle つくば","【ハーブピーリング l ニキビケア】韓国肌管理Belle 川越","【ハーブピーリング・フェイシャル】LIME 越谷店","【ハーブピーリング｜ニキビケア】韓国肌管理 Belle赤羽","【ハーブピーリング｜ニキビケア】韓国肌管理Belle 下北沢","【ハーブピーリング｜ニキビケア】韓国肌管理Belle 仙台","【ハーブピーリング｜ニキビケア】韓国肌管理Belle 原宿","【ハーブピーリング｜ニキビケア】韓国肌管理Belle 天王寺","【ハーブピーリング｜ニキビケア】韓国肌管理Belle 所沢","【ハーブピーリング｜ニキビケア】韓国肌管理Belle 桜木町","【ハーブピーリング｜ニキビケア】韓国肌管理Belle 津田沼","【ハーブピーリング｜ニキビケア】韓国肌管理Belle松本","【ハーブピーリング｜小顔・痩身｜毛穴洗浄】韓国肌管理 Belle　後楽園・春日","【ホワイトニング/ハーブピーリング】ニキビケア専門店　韓国肌管理Belle plus 新大阪","【小顔・痩身 / ハーブピーリング】LIME天神","【小顔・痩身 / ハーブピーリング】LIME東銀座","【小顔・痩身/ハーブピーリング】LIME 二子玉川","【小顔・痩身/ハーブピーリング】LIME 新宿三丁目","【小顔・痩身・毛穴・ハーブピーリング】専門店Lift 京都河原町(旧:Belle)","【毛穴/ハーブピーリング】韓国肌管理Belle 布施","【毛穴/ハーブピーリング】韓国肌管理Belle 本八幡","【毛穴/ハーブピーリング】韓国肌管理Belle 高槻","【毛穴│ハーブピーリング】LIME 札幌","【毛穴│ハーブピーリング】韓国肌管理Belle 宇都宮","【毛穴│ハーブピーリング】韓国肌管理Belle 札幌","【毛穴｜ハーブピーリング】LIME 五反田","【毛穴｜ハーブピーリング】韓国肌管理Belle 八王子","【毛穴｜ハーブピーリング】韓国肌管理Belle 博多","【毛穴｜ハーブピーリング】韓国肌管理Belle 堀江","【毛穴｜ハーブピーリング】韓国肌管理Belle 大和","【毛穴｜ハーブピーリング】韓国肌管理Belle 大森","【毛穴｜ハーブピーリング】韓国肌管理Belle 広島","【毛穴｜ハーブピーリング】韓国肌管理Belle 志木","【毛穴｜ハーブピーリング】韓国肌管理Belle 戸塚","【毛穴｜ハーブピーリング】韓国肌管理Belle 本厚木","【毛穴｜ハーブピーリング】韓国肌管理Belle 松江","【毛穴｜ハーブピーリング】韓国肌管理Belle 栄","【毛穴｜ハーブピーリング】韓国肌管理Belle 池袋東口","【毛穴｜ハーブピーリング】韓国肌管理Belle 浦安","【毛穴｜ハーブピーリング】韓国肌管理Belle 熊本・水前寺","【毛穴｜ハーブピーリング】韓国肌管理Belle 神戸元町","【毛穴｜ハーブピーリング】韓国肌管理Belle 綱島","【毛穴｜ハーブピーリング】韓国肌管理Belle 練馬","【毛穴｜ハーブピーリング】韓国肌管理Belle 自由が丘","【毛穴｜ハーブピーリング】韓国肌管理Belle 西宮北口","【毛穴｜ハーブピーリング】韓国肌管理Belle 調布","【毛穴｜ハーブピーリング｜痩身】韓国肌管理Belle 熊本店","【韓国肌管理｜ハーブピーリング】ニキビケア専門店Belle小倉","【韓国肌管理｜ハーブピーリング】ニキビケア専門店Belle藤沢","【韓国肌管理｜ハーブピーリング】ニキビケア専門店Belle門前仲町","ハーブピーリング LIME新宿西口","ハーブピーリング | ニキビケア　韓国肌管理Belle那覇おもろまち","ハーブピーリング/小顔コルギ/ニキビケア LIME浦和","ハーブピーリングLIME中野","ハーブピーリングLIME千葉","ハーブピーリングLIME名古屋","ハーブピーリングLIME梅田","ハーブピーリングLIME高田馬場","ハーブピーリング【LIME】心斎橋","ハーブピーリング専門店LIME渋谷","小顔/肌質改善/痩身専門店　LIME 松本","痩身|毛穴|ハーブピーリング　LIME武蔵小杉","韓国美容×肌質改善《Belle渋谷》ハーブピーリング | ニキビケア","［韓国肌管理｜ハーブピーリング］Belle目黒","［韓国肌管理｜ハーブピーリング］ニキビケア専門店Belle上野","［韓国肌管理｜ハーブピーリング］ニキビケア専門店Belle新宿三丁目","［韓国肌管理｜ハーブピーリング］ニキビケア専門店Belle新宿西口","［韓国肌管理｜ハーブピーリング］ニキビケア専門店Belle日本橋","［韓国肌管理｜ハーブピーリング］ニキビケア専門店Belle溝の口","［韓国肌管理｜ハーブピーリング］ニキビケア専門店Belle町田"],"persons":["儀間理生","林治希","古林虹輝","木村颯真","吉嶋早希","佐々木剛生","中山拓実","渡邉ちゆき","新里愛","深田奈摘美","日野口まこ","藤田幾子","中村優希","家崎萌","横山奈央","雛形"],"store_person":{},"targets":{},"data":{"202602":{"【ハーブピーリング｜ニキビケア】韓国肌管理Belle 下北沢":{"total_sales":689260,"new_count":20,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":45,"contract_sales":43800,"new_contract_sales":0},"【ハーブピーリング｜小顔・痩身｜毛穴洗浄】韓国肌管理 Belle　後楽園・春日":{"total_sales":14900,"new_count":0,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":4,"contract_sales":0,"new_contract_sales":0},"【毛穴｜ハーブピーリング】韓国肌管理Belle 熊本・水前寺":{"total_sales":0,"new_count":0,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":1,"contract_sales":0,"new_contract_sales":0}},"202603":{"-LIME-[小顔・たるみ/毛穴洗浄/ハーブピーリング]":{"total_sales":197260,"new_count":7,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":23,"contract_sales":0,"new_contract_sales":0},"LIME高崎ByAnela【アネラ】":{"total_sales":74600,"new_count":5,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":7,"contract_sales":0,"new_contract_sales":0},"【ニキビケア専門｜ハーブピーリング】韓国肌管理 Belle 水戸":{"total_sales":724900,"new_count":29,"new_contract_count":2,"new_contract_unit_price":140400,"new_contract_rate":6.9,"total_treatments":84,"contract_sales":487800,"new_contract_sales":280800},"【ニキビケア専門｜ハーブピーリング】韓国肌管理 Belle新潟":{"total_sales":1931600,"new_count":32,"new_contract_count":11,"new_contract_unit_price":67859,"new_contract_rate":34.4,"total_treatments":155,"contract_sales":1250650,"new_contract_sales":746450},"【ニキビケア専門｜ハーブピーリング】韓国肌管理Belle蒲田":{"total_sales":1439440,"new_count":27,"new_contract_count":7,"new_contract_unit_price":45357,"new_contract_rate":25.9,"total_treatments":84,"contract_sales":1048400,"new_contract_sales":317500},"【ニキビ・毛穴ケア｜ハーブピーリング】韓国肌管理Belle 静岡":{"total_sales":1488100,"new_count":20,"new_contract_count":4,"new_contract_unit_price":63900,"new_contract_rate":20.0,"total_treatments":66,"contract_sales":1164100,"new_contract_sales":255600},"【ハーブピーリング l ニキビケア】韓国肌管理Belle つくば":{"total_sales":233800,"new_count":14,"new_contract_count":1,"new_contract_unit_price":57000,"new_contract_rate":7.1,"total_treatments":24,"contract_sales":120000,"new_contract_sales":57000},"【ハーブピーリング l ニキビケア】韓国肌管理Belle 川越":{"total_sales":1363500,"new_count":35,"new_contract_count":4,"new_contract_unit_price":107700,"new_contract_rate":11.4,"total_treatments":94,"contract_sales":879800,"new_contract_sales":430800},"【ハーブピーリング・フェイシャル】LIME 越谷店":{"total_sales":1145120,"new_count":23,"new_contract_count":14,"new_contract_unit_price":30057,"new_contract_rate":60.9,"total_treatments":97,"contract_sales":818030,"new_contract_sales":420800},"【ハーブピーリング｜ニキビケア】韓国肌管理 Belle赤羽":{"total_sales":484500,"new_count":15,"new_contract_count":5,"new_contract_unit_price":23000,"new_contract_rate":33.3,"total_treatments":47,"contract_sales":135000,"new_contract_sales":115000},"【ハーブピーリング｜ニキビケア】韓国肌管理Belle 下北沢":{"total_sales":39100,"new_count":3,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":6,"contract_sales":0,"new_contract_sales":0},"【ハーブピーリング｜ニキビケア】韓国肌管理Belle 仙台":{"total_sales":1084600,"new_count":19,"new_contract_count":1,"new_contract_unit_price":59400,"new_contract_rate":5.3,"total_treatments":102,"contract_sales":788400,"new_contract_sales":59400},"【ハーブピーリング｜ニキビケア】韓国肌管理Belle 原宿":{"total_sales":709900,"new_count":22,"new_contract_count":5,"new_contract_unit_price":19200,"new_contract_rate":22.7,"total_treatments":48,"contract_sales":470000,"new_contract_sales":96000},"【ハーブピーリング｜ニキビケア】韓国肌管理Belle 天王寺":{"total_sales":180500,"new_count":14,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":19,"contract_sales":66000,"new_contract_sales":0},"【ハーブピーリング｜ニキビケア】韓国肌管理Belle 所沢":{"total_sales":338600,"new_count":9,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":42,"contract_sales":184000,"new_contract_sales":0},"【ハーブピーリング｜ニキビケア】韓国肌管理Belle 桜木町":{"total_sales":618300,"new_count":14,"new_contract_count":1,"new_contract_unit_price":102000,"new_contract_rate":7.1,"total_treatments":19,"contract_sales":445000,"new_contract_sales":102000},"【ハーブピーリング｜ニキビケア】韓国肌管理Belle 津田沼":{"total_sales":374220,"new_count":13,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":36,"contract_sales":122500,"new_contract_sales":0},"【ハーブピーリング｜ニキビケア】韓国肌管理Belle松本":{"total_sales":837000,"new_count":13,"new_contract_count":5,"new_contract_unit_price":120200,"new_contract_rate":38.5,"total_treatments":65,"contract_sales":601000,"new_contract_sales":601000},"【ハーブピーリング｜小顔・痩身｜毛穴洗浄】韓国肌管理 Belle　後楽園・春日":{"total_sales":397300,"new_count":4,"new_contract_count":2,"new_contract_unit_price":40000,"new_contract_rate":50.0,"total_treatments":40,"contract_sales":326600,"new_contract_sales":80000},"【ホワイトニング/ハーブピーリング】ニキビケア専門店　韓国肌管理Belle plus 新大阪":{"total_sales":133600,"new_count":6,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":14,"contract_sales":5500,"new_contract_sales":0},"【小顔・痩身 / ハーブピーリング】LIME天神":{"total_sales":267600,"new_count":18,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":30,"contract_sales":0,"new_contract_sales":0},"【小顔・痩身 / ハーブピーリング】LIME東銀座":{"total_sales":322100,"new_count":12,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":36,"contract_sales":0,"new_contract_sales":0},"【小顔・痩身/ハーブピーリング】LIME 二子玉川":{"total_sales":656678,"new_count":25,"new_contract_count":1,"new_contract_unit_price":59400,"new_contract_rate":4.0,"total_treatments":62,"contract_sales":211088,"new_contract_sales":59400},"【小顔・痩身/ハーブピーリング】LIME 新宿三丁目":{"total_sales":616400,"new_count":7,"new_contract_count":1,"new_contract_unit_price":99000,"new_contract_rate":14.3,"total_treatments":34,"contract_sales":353400,"new_contract_sales":99000},"【小顔・痩身・毛穴・ハーブピーリング】専門店Lift 京都河原町(旧:Belle)":{"total_sales":291460,"new_count":18,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":37,"contract_sales":84000,"new_contract_sales":0},"【毛穴/ハーブピーリング】韓国肌管理Belle 布施":{"total_sales":274800,"new_count":8,"new_contract_count":1,"new_contract_unit_price":99000,"new_contract_rate":12.5,"total_treatments":22,"contract_sales":179000,"new_contract_sales":99000},"【毛穴/ハーブピーリング】韓国肌管理Belle 本八幡":{"total_sales":468000,"new_count":20,"new_contract_count":8,"new_contract_unit_price":25250,"new_contract_rate":40.0,"total_treatments":57,"contract_sales":273700,"new_contract_sales":202000},"【毛穴/ハーブピーリング】韓国肌管理Belle 高槻":{"total_sales":215600,"new_count":8,"new_contract_count":2,"new_contract_unit_price":66000,"new_contract_rate":25.0,"total_treatments":12,"contract_sales":146000,"new_contract_sales":132000},"【毛穴│ハーブピーリング】LIME 札幌":{"total_sales":247640,"new_count":37,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":72,"contract_sales":108800,"new_contract_sales":0},"【毛穴│ハーブピーリング】韓国肌管理Belle 宇都宮":{"total_sales":225760,"new_count":15,"new_contract_count":1,"new_contract_unit_price":10000,"new_contract_rate":6.7,"total_treatments":21,"contract_sales":64960,"new_contract_sales":10000},"【毛穴│ハーブピーリング】韓国肌管理Belle 札幌":{"total_sales":509700,"new_count":28,"new_contract_count":7,"new_contract_unit_price":49771,"new_contract_rate":25.0,"total_treatments":42,"contract_sales":359400,"new_contract_sales":348400},"【毛穴｜ハーブピーリング】LIME 五反田":{"total_sales":827320,"new_count":29,"new_contract_count":11,"new_contract_unit_price":10127,"new_contract_rate":37.9,"total_treatments":68,"contract_sales":418420,"new_contract_sales":111400},"【毛穴｜ハーブピーリング】韓国肌管理Belle 八王子":{"total_sales":706600,"new_count":20,"new_contract_count":9,"new_contract_unit_price":16722,"new_contract_rate":45.0,"total_treatments":63,"contract_sales":496000,"new_contract_sales":150500},"【毛穴｜ハーブピーリング】韓国肌管理Belle 博多":{"total_sales":983500,"new_count":14,"new_contract_count":4,"new_contract_unit_price":144500,"new_contract_rate":28.6,"total_treatments":46,"contract_sales":718500,"new_contract_sales":578000},"【毛穴｜ハーブピーリング】韓国肌管理Belle 堀江":{"total_sales":425200,"new_count":13,"new_contract_count":1,"new_contract_unit_price":10000,"new_contract_rate":7.7,"total_treatments":38,"contract_sales":225400,"new_contract_sales":10000},"【毛穴｜ハーブピーリング】韓国肌管理Belle 大和":{"total_sales":327400,"new_count":11,"new_contract_count":1,"new_contract_unit_price":87000,"new_contract_rate":9.1,"total_treatments":73,"contract_sales":123000,"new_contract_sales":87000},"【毛穴｜ハーブピーリング】韓国肌管理Belle 大森":{"total_sales":441080,"new_count":19,"new_contract_count":4,"new_contract_unit_price":49875,"new_contract_rate":21.1,"total_treatments":33,"contract_sales":299920,"new_contract_sales":199500},"【毛穴｜ハーブピーリング】韓国肌管理Belle 広島":{"total_sales":54090,"new_count":12,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":49,"contract_sales":0,"new_contract_sales":0},"【毛穴｜ハーブピーリング】韓国肌管理Belle 志木":{"total_sales":410897,"new_count":15,"new_contract_count":1,"new_contract_unit_price":186000,"new_contract_rate":6.7,"total_treatments":36,"contract_sales":225517,"new_contract_sales":186000},"【毛穴｜ハーブピーリング】韓国肌管理Belle 戸塚":{"total_sales":953210,"new_count":20,"new_contract_count":2,"new_contract_unit_price":107700,"new_contract_rate":10.0,"total_treatments":73,"contract_sales":568510,"new_contract_sales":215400},"【毛穴｜ハーブピーリング】韓国肌管理Belle 本厚木":{"total_sales":964380,"new_count":24,"new_contract_count":2,"new_contract_unit_price":80400,"new_contract_rate":8.3,"total_treatments":88,"contract_sales":391300,"new_contract_sales":160800},"【毛穴｜ハーブピーリング】韓国肌管理Belle 松江":{"total_sales":970500,"new_count":18,"new_contract_count":9,"new_contract_unit_price":58200,"new_contract_rate":50.0,"total_treatments":53,"contract_sales":708800,"new_contract_sales":523800},"【毛穴｜ハーブピーリング】韓国肌管理Belle 栄":{"total_sales":1165980,"new_count":28,"new_contract_count":10,"new_contract_unit_price":58440,"new_contract_rate":35.7,"total_treatments":49,"contract_sales":830600,"new_contract_sales":584400},"【毛穴｜ハーブピーリング】韓国肌管理Belle 池袋東口":{"total_sales":1929900,"new_count":25,"new_contract_count":10,"new_contract_unit_price":107100,"new_contract_rate":40.0,"total_treatments":81,"contract_sales":1561100,"new_contract_sales":1071000},"【毛穴｜ハーブピーリング】韓国肌管理Belle 浦安":{"total_sales":982660,"new_count":24,"new_contract_count":6,"new_contract_unit_price":71200,"new_contract_rate":25.0,"total_treatments":42,"contract_sales":740460,"new_contract_sales":356000},"【毛穴｜ハーブピーリング】韓国肌管理Belle 熊本・水前寺":{"total_sales":948760,"new_count":19,"new_contract_count":11,"new_contract_unit_price":47890,"new_contract_rate":57.9,"total_treatments":42,"contract_sales":733800,"new_contract_sales":526800},"【毛穴｜ハーブピーリング】韓国肌管理Belle 神戸元町":{"total_sales":435000,"new_count":19,"new_contract_count":3,"new_contract_unit_price":71333,"new_contract_rate":15.8,"total_treatments":40,"contract_sales":278500,"new_contract_sales":214000},"【毛穴｜ハーブピーリング】韓国肌管理Belle 綱島":{"total_sales":271900,"new_count":18,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":31,"contract_sales":139000,"new_contract_sales":0},"【毛穴｜ハーブピーリング】韓国肌管理Belle 練馬":{"total_sales":183000,"new_count":17,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":29,"contract_sales":42500,"new_contract_sales":0},"【毛穴｜ハーブピーリング】韓国肌管理Belle 自由が丘":{"total_sales":221130,"new_count":13,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":44,"contract_sales":81400,"new_contract_sales":0},"【毛穴｜ハーブピーリング】韓国肌管理Belle 西宮北口":{"total_sales":278540,"new_count":12,"new_contract_count":1,"new_contract_unit_price":87000,"new_contract_rate":8.3,"total_treatments":22,"contract_sales":87000,"new_contract_sales":87000},"【毛穴｜ハーブピーリング】韓国肌管理Belle 調布":{"total_sales":997880,"new_count":17,"new_contract_count":6,"new_contract_unit_price":65700,"new_contract_rate":35.3,"total_treatments":78,"contract_sales":674070,"new_contract_sales":394200},"【毛穴｜ハーブピーリング｜痩身】韓国肌管理Belle 熊本店":{"total_sales":902120,"new_count":13,"new_contract_count":2,"new_contract_unit_price":156000,"new_contract_rate":15.4,"total_treatments":65,"contract_sales":777000,"new_contract_sales":312000},"【韓国肌管理｜ハーブピーリング】ニキビケア専門店Belle小倉":{"total_sales":387500,"new_count":9,"new_contract_count":1,"new_contract_unit_price":99600,"new_contract_rate":11.1,"total_treatments":53,"contract_sales":206600,"new_contract_sales":99600},"【韓国肌管理｜ハーブピーリング】ニキビケア専門店Belle藤沢":{"total_sales":1189700,"new_count":24,"new_contract_count":8,"new_contract_unit_price":69825,"new_contract_rate":33.3,"total_treatments":56,"contract_sales":843600,"new_contract_sales":558600},"【韓国肌管理｜ハーブピーリング】ニキビケア専門店Belle門前仲町":{"total_sales":531270,"new_count":17,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":53,"contract_sales":29800,"new_contract_sales":0},"ハーブピーリング LIME新宿西口":{"total_sales":678550,"new_count":23,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":75,"contract_sales":184950,"new_contract_sales":0},"ハーブピーリング | ニキビケア　韓国肌管理Belle那覇おもろまち":{"total_sales":791520,"new_count":32,"new_contract_count":6,"new_contract_unit_price":36233,"new_contract_rate":18.8,"total_treatments":91,"contract_sales":570020,"new_contract_sales":217400},"ハーブピーリング/小顔コルギ/ニキビケア LIME浦和":{"total_sales":953860,"new_count":15,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":79,"contract_sales":0,"new_contract_sales":0},"ハーブピーリングLIME中野":{"total_sales":718850,"new_count":26,"new_contract_count":3,"new_contract_unit_price":44200,"new_contract_rate":11.5,"total_treatments":65,"contract_sales":437350,"new_contract_sales":132600},"ハーブピーリングLIME千葉":{"total_sales":1156680,"new_count":28,"new_contract_count":1,"new_contract_unit_price":30000,"new_contract_rate":3.6,"total_treatments":91,"contract_sales":540380,"new_contract_sales":30000},"ハーブピーリングLIME名古屋":{"total_sales":381700,"new_count":15,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":52,"contract_sales":178400,"new_contract_sales":0},"ハーブピーリングLIME梅田":{"total_sales":216200,"new_count":15,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":39,"contract_sales":0,"new_contract_sales":0},"ハーブピーリングLIME高田馬場":{"total_sales":952390,"new_count":15,"new_contract_count":2,"new_contract_unit_price":90000,"new_contract_rate":13.3,"total_treatments":67,"contract_sales":611000,"new_contract_sales":180000},"ハーブピーリング【LIME】心斎橋":{"total_sales":165900,"new_count":1,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":10,"contract_sales":0,"new_contract_sales":0},"ハーブピーリング専門店LIME渋谷":{"total_sales":218750,"new_count":7,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":20,"contract_sales":106450,"new_contract_sales":0},"小顔/肌質改善/痩身専門店　LIME 松本":{"total_sales":1027047,"new_count":16,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":79,"contract_sales":0,"new_contract_sales":0},"痩身|毛穴|ハーブピーリング　LIME武蔵小杉":{"total_sales":449250,"new_count":13,"new_contract_count":1,"new_contract_unit_price":10000,"new_contract_rate":7.7,"total_treatments":55,"contract_sales":182650,"new_contract_sales":10000},"韓国美容×肌質改善《Belle渋谷》ハーブピーリング | ニキビケア":{"total_sales":1360777,"new_count":34,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":140,"contract_sales":0,"new_contract_sales":0},"［韓国肌管理｜ハーブピーリング］Belle目黒":{"total_sales":602710,"new_count":31,"new_contract_count":5,"new_contract_unit_price":45000,"new_contract_rate":16.1,"total_treatments":92,"contract_sales":184800,"new_contract_sales":90000},"［韓国肌管理｜ハーブピーリング］ニキビケア専門店Belle上野":{"total_sales":1104940,"new_count":20,"new_contract_count":6,"new_contract_unit_price":82500,"new_contract_rate":30.0,"total_treatments":73,"contract_sales":759800,"new_contract_sales":495000},"［韓国肌管理｜ハーブピーリング］ニキビケア専門店Belle新宿三丁目":{"total_sales":66300,"new_count":4,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":16,"contract_sales":0,"new_contract_sales":0},"［韓国肌管理｜ハーブピーリング］ニキビケア専門店Belle新宿西口":{"total_sales":591330,"new_count":19,"new_contract_count":3,"new_contract_unit_price":53133,"new_contract_rate":15.8,"total_treatments":44,"contract_sales":345530,"new_contract_sales":159400},"［韓国肌管理｜ハーブピーリング］ニキビケア専門店Belle日本橋":{"total_sales":397590,"new_count":17,"new_contract_count":1,"new_contract_unit_price":87000,"new_contract_rate":5.9,"total_treatments":38,"contract_sales":236190,"new_contract_sales":87000},"［韓国肌管理｜ハーブピーリング］ニキビケア専門店Belle溝の口":{"total_sales":1245040,"new_count":16,"new_contract_count":0,"new_contract_unit_price":0,"new_contract_rate":0.0,"total_treatments":131,"contract_sales":40000,"new_contract_sales":0},"［韓国肌管理｜ハーブピーリング］ニキビケア専門店Belle町田":{"total_sales":642220,"new_count":15,"new_contract_count":1,"new_contract_unit_price":9200,"new_contract_rate":6.7,"total_treatments":101,"contract_sales":29000,"new_contract_sales":9200}},"202604":{"【毛穴｜ハーブピーリング】韓国肌管理Belle 池袋東口":{"total_sales":11500,"new_count":3,"new_contract_count":2,"new_contract_unit_price":0,"new_contract_rate":66.7,"total_treatments":4,"contract_sales":0,"new_contract_sales":0}}}};
 const PW = "Lime0201";
-// MONTH_MAP: 動的生成（2025〜2026年）
-const MONTH_MAP = {};
-for(let y=2025;y<=2026;y++) for(let m=1;m<=12;m++){MONTH_MAP[y+(m<10?'0':'')+m]=m+'月';}
-
-let curYear   = (()=>{const yrs=[...new Set(DATA.months.map(m=>m.slice(0,4)))].sort();return yrs[yrs.length-1]||'2026';})();
-let curMonth  = (()=>{const m=[...DATA.months].sort();return m[m.length-1]||'202603';})();
+const MONTH_MAP = {"202602":"2月","202603":"3月","202604":"4月"};
+let curMonth = "202603";
 let curPerson = "全店舗";
-let curStoreType = "全店舗";
 
 
 /* ===== SETTINGS & TARGET FETCH ===== */
-const LS_URL_KEY    = 'limeFit_scriptUrl';
-const LS_TGT_KEY    = 'limeFit_targets';
-const LS_SP_KEY     = 'limeFit_storePerson';
-const LS_ST_KEY     = 'limeFit_storeType';
-const LS_TS_KEY     = 'limeFit_updatedAt';
-const LS_ACTUAL_KEY = 'limeFit_actualData';
-
-DATA.store_type = {};
+const LS_URL_KEY = 'limeFit_scriptUrl';
+const LS_TGT_KEY = 'limeFit_targets';
+const LS_SP_KEY  = 'limeFit_storePerson';
+const LS_TS_KEY  = 'limeFit_updatedAt';
 
 function openSettings(){
   const saved = localStorage.getItem(LS_URL_KEY)||'';
@@ -490,29 +407,14 @@ async function fetchAndApply(){
     if(json.error) throw new Error(json.error);
     DATA.store_person = json.store_person||{};
     DATA.targets      = json.targets||{};
-    DATA.store_type   = json.store_type||{};
-    if(json.actual_data && Object.keys(json.actual_data).length>0){
-      Object.keys(json.actual_data).forEach(function(month){
-        if(!DATA.data[month]) DATA.data[month]={};
-        Object.assign(DATA.data[month], json.actual_data[month]);
-        if(!DATA.months.includes(month)) DATA.months.push(month);
-      });
-      DATA.months.sort();
-      localStorage.setItem(LS_ACTUAL_KEY, JSON.stringify(json.actual_data));
-    }
     const ts = json.updated_at ? new Date(json.updated_at).toLocaleString('ja-JP') : new Date().toLocaleString('ja-JP');
     localStorage.setItem(LS_TGT_KEY, JSON.stringify(json.targets||{}));
     localStorage.setItem(LS_SP_KEY,  JSON.stringify(json.store_person||{}));
-    localStorage.setItem(LS_ST_KEY,  JSON.stringify(json.store_type||{}));
     localStorage.setItem(LS_TS_KEY,  ts);
-    document.getElementById('fetchStatus').textContent='\u2713 \u53d6\u5f97\u5b8c\u4e86\uff01';
+    document.getElementById('fetchStatus').textContent='✓ 取得完了！';
     document.getElementById('fetchStatus').className='fetch-status fetch-ok';
-    document.getElementById('lastUpdated').textContent='\u6700\u7d42\u53d6\u5f97: '+ts;
+    document.getElementById('lastUpdated').textContent='最終取得: '+ts;
     applyTargetBadge();
-    buildYearTabs();
-    buildMonthTabs();
-    buildPersonBar();
-    buildTypeBar();
     renderList();
     setTimeout(closeSettings, 1200);
   }catch(e){
@@ -534,26 +436,11 @@ async function fetchTargets(){
     if(json.error) throw new Error(json.error);
     DATA.store_person=json.store_person||{};
     DATA.targets=json.targets||{};
-    DATA.store_type=json.store_type||{};
-    if(json.actual_data && Object.keys(json.actual_data).length>0){
-      Object.keys(json.actual_data).forEach(function(month){
-        if(!DATA.data[month]) DATA.data[month]={};
-        Object.assign(DATA.data[month], json.actual_data[month]);
-        if(!DATA.months.includes(month)) DATA.months.push(month);
-      });
-      DATA.months.sort();
-      localStorage.setItem(LS_ACTUAL_KEY,JSON.stringify(json.actual_data));
-    }
     const ts=json.updated_at?new Date(json.updated_at).toLocaleString('ja-JP'):new Date().toLocaleString('ja-JP');
     localStorage.setItem(LS_TGT_KEY,JSON.stringify(json.targets||{}));
     localStorage.setItem(LS_SP_KEY,JSON.stringify(json.store_person||{}));
-    localStorage.setItem(LS_ST_KEY,JSON.stringify(json.store_type||{}));
     localStorage.setItem(LS_TS_KEY,ts);
     applyTargetBadge();
-    buildYearTabs();
-    buildMonthTabs();
-    buildPersonBar();
-    buildTypeBar();
     renderList();
   }catch(e){ alert('取得エラー: '+e.message); }
   finally{ btn.textContent='🔄 目標更新'; btn.disabled=false; }
@@ -568,20 +455,8 @@ function applyTargetBadge(){
 function loadSavedTargets(){
   const tgt=localStorage.getItem(LS_TGT_KEY);
   const sp=localStorage.getItem(LS_SP_KEY);
-  const st=localStorage.getItem(LS_ST_KEY);
-  const actual=localStorage.getItem(LS_ACTUAL_KEY);
   if(tgt){ try{ DATA.targets=JSON.parse(tgt); }catch(e){} }
   if(sp){ try{ DATA.store_person=JSON.parse(sp); }catch(e){} }
-  if(st){ try{ DATA.store_type=JSON.parse(st); }catch(e){} }
-  if(actual){
-    try{
-      const ad=JSON.parse(actual);
-      Object.keys(ad).forEach(function(month){
-        if(!DATA.data[month]) DATA.data[month]={};
-        Object.assign(DATA.data[month], ad[month]);
-      });
-    }catch(e){}
-  }
   applyTargetBadge();
 }
 
@@ -606,52 +481,18 @@ function setView(m){
 
 function init(){
   loadSavedTargets();
-  // 年タブと月タブを構築
-  buildYearTabs();
-  buildMonthTabs();
-  // 担当者バー
-  buildPersonBar();
-  // 直営/加盟バー
-  buildTypeBar();
-  renderList();
-}
-
-function buildYearTabs(){
-  const years=[...new Set(DATA.months.map(m=>m.slice(0,4)))].sort();
-  // curYearがデータにない場合は最後の年に
-  if(!years.includes(curYear)) curYear=years[years.length-1]||'2026';
-  const container=document.getElementById('yearTabs');
-  container.innerHTML='';
-  years.forEach(y=>{
-    const b=document.createElement('button');
-    b.className='year-tab'+(y===curYear?' active':'');
-    b.textContent=y+'年';
-    b.onclick=()=>selectYear(y);
-    container.appendChild(b);
-  });
-}
-
-function buildMonthTabs(){
-  const container=document.getElementById('monthTabs');
-  container.innerHTML='';
-  const monthsForYear=DATA.months.filter(m=>m.startsWith(curYear));
-  // curMonthがこの年にない場合は最後の月に
-  if(!monthsForYear.includes(curMonth)){
-    curMonth=monthsForYear[monthsForYear.length-1]||DATA.months[DATA.months.length-1];
-  }
-  monthsForYear.forEach(m=>{
+  // 月タブ
+  const tabs=document.getElementById('monthTabs');
+  DATA.months.forEach(m=>{
     const b=document.createElement('button');
     b.className='month-tab'+(m===curMonth?' active':'');
     b.textContent=MONTH_MAP[m]||m;
     b.onclick=()=>selectMonth(m);
-    container.appendChild(b);
+    tabs.appendChild(b);
   });
-}
-
-function buildPersonBar(){
+  // 担当者バー
   const bar=document.getElementById('personBar');
-  bar.innerHTML='';
-  const persons=['全店舗',...(DATA.persons||[])];
+  const persons=['全店舗',...DATA.persons];
   persons.forEach(p=>{
     const b=document.createElement('button');
     b.className='person-btn'+(p===curPerson?' active':'');
@@ -659,31 +500,9 @@ function buildPersonBar(){
     b.onclick=()=>selectPerson(p);
     bar.appendChild(b);
   });
+  renderList();
 }
 
-function buildTypeBar(){
-  const hasType=DATA.store_type&&Object.keys(DATA.store_type).length>0;
-  const bar=document.getElementById('typeBar');
-  bar.style.display=hasType?'':'none';
-  const inner=document.getElementById('typeBarInner');
-  inner.innerHTML='';
-  const types=[{v:'全店舗',txt:'🏪 全店舗',cls:'active-all'},{v:'直営',txt:'🏢 直営',cls:'active-direct'},{v:'加盟',txt:'🤝 加盟',cls:'active-franchise'}];
-  types.forEach(t=>{
-    const b=document.createElement('button');
-    b.className='type-btn'+(curStoreType===t.v?' '+t.cls:'');
-    b.textContent=t.txt;
-    b.dataset.type=t.v;
-    b.onclick=()=>selectStoreType(t.v);
-    inner.appendChild(b);
-  });
-}
-
-function selectYear(y){
-  curYear=y;
-  document.querySelectorAll('.year-tab').forEach(b=>b.classList.toggle('active',b.textContent===y+'年'));
-  buildMonthTabs();
-  renderList(); goList();
-}
 function selectMonth(m){
   curMonth=m;
   document.querySelectorAll('.month-tab').forEach(b=>b.classList.toggle('active',b.textContent===(MONTH_MAP[m]||m)));
@@ -694,17 +513,9 @@ function selectPerson(p){
   document.querySelectorAll('.person-btn').forEach(b=>b.classList.toggle('active',b.textContent===(p==='全店舗'?'🏪 全店舗':p)));
   renderList(); goList();
 }
-function selectStoreType(t){
-  curStoreType=t;
-  const clsMap={'\u5168\u5e97\u8217':'active-all','\u76f4\u55b6':'active-direct','\u52a0\u76df':'active-franchise'};
-  document.querySelectorAll('.type-btn').forEach(b=>{
-    b.className='type-btn'+(b.dataset.type===t?' '+clsMap[t]:'');
-  });
-  renderList(); goList();
-}
 
 function fmt(v){return'¥'+Math.round(v).toLocaleString('ja-JP')}
-function royalty(s){return Math.round(s*0.1+44000)} // フォールバック用（GASの値を優先）
+function royalty(s){return Math.round(s*0.1+44000)}
 function progClass(pct){return pct>=100?'good':pct>=70?'mid':'low'}
 function progBadge(actual,target){
   if(!target||target===0)return{cls:'none',txt:''};
@@ -716,12 +527,8 @@ function filteredStores(){
   const md=DATA.data[curMonth]||{};
   return DATA.stores.filter(s=>{
     if(!md[s])return false;
-    if(curPerson!=='全店舗'&&DATA.store_person[s]!==curPerson)return false;
-    if(curStoreType!=='全店舗'){
-      const st=DATA.store_type[s];
-      if(st!==curStoreType)return false;
-    }
-    return true;
+    if(curPerson==='全店舗')return true;
+    return DATA.store_person[s]===curPerson;
   });
 }
 
@@ -730,69 +537,38 @@ function renderList(){
   const md=DATA.data[curMonth]||{};
   const fstores=filteredStores();
   const hasTarget=DATA.targets&&Object.keys(DATA.targets).length>0;
-  const hasType=DATA.store_type&&Object.keys(DATA.store_type).length>0;
 
-  let totalSales=0,directSales=0,franchiseSales=0,directCount=0,franchiseCount=0;
-  fstores.forEach(s=>{
-    if(md[s]){
-      totalSales+=md[s].total_sales;
-      const st=DATA.store_type[s];
-      if(st==='\u76f4\u55b6'){directSales+=md[s].total_sales;directCount++;}
-      else if(st==='\u52a0\u76df'){franchiseSales+=md[s].total_sales;franchiseCount++;}
-    }
-  });
-
-  const personLabel=curPerson==='\u5168\u5e97\u8217'?'\u5168\u5e97\u8217':curPerson+'\u62c5\u5f53';
-  document.getElementById('listTitle').textContent=personLabel+' \u5e97\u8217\u4e00\u89a7';
+  let totalSales=0;
+  fstores.forEach(s=>{if(md[s])totalSales+=md[s].total_sales});
+  const personLabel=curPerson==='全店舗'?'全店舗':curPerson+'担当';
+  document.getElementById('listTitle').textContent=personLabel+' 店舗一覧';
   document.getElementById('listMeta').textContent=
-    ml+' \uff0f '+fstores.length+'\u5e97\u8217 \uff0f \u5408\u8a08 \xa5'+totalSales.toLocaleString('ja-JP')+'\u5186';
-
-  // 直営/加盟 内訳チップ
-  const totalsRow=document.getElementById('totalsRow');
-  totalsRow.innerHTML='';
-  if(hasType&&curStoreType==='\u5168\u5e97\u8217'&&(directCount>0||franchiseCount>0)){
-    const chips=[
-      {cls:'all',txt:'\u5408\u8a08 \xa5'+totalSales.toLocaleString('ja-JP')},
-      {cls:'direct',txt:'\u76f4\u55b6'+directCount+'\u5e97 \xa5'+directSales.toLocaleString('ja-JP')},
-      {cls:'franchise',txt:'\u52a0\u76df'+franchiseCount+'\u5e97 \xa5'+franchiseSales.toLocaleString('ja-JP')}
-    ];
-    chips.forEach(c=>{
-      const s=document.createElement('span');
-      s.className='total-chip '+c.cls;
-      s.textContent=c.txt;
-      totalsRow.appendChild(s);
-    });
-  }
-
-  // 統計パネル
-  renderStats(fstores,md);
+    ml+' ／ '+fstores.length+'店舗 ／ 合計 ¥'+totalSales.toLocaleString('ja-JP')+'円';
 
   const grid=document.getElementById('cardsGrid');
   grid.innerHTML='';
 
-  // 全店舗リスト（フィルタ適用）
-  const allStores=DATA.stores.filter(s=>{
-    if(curPerson!=='\u5168\u5e97\u8217'&&DATA.store_person[s]!==curPerson)return false;
-    if(curStoreType!=='\u5168\u5e97\u8217'&&DATA.store_type[s]!==curStoreType)return false;
-    return true;
-  });
+  // データなし店舗も全店舗表示時のみ追加
+  const allStores=curPerson==='全店舗'
+    ?DATA.stores
+    :DATA.stores.filter(s=>DATA.store_person[s]===curPerson);
 
   allStores.forEach(s=>{
     const d=md[s];
     const tgt=(DATA.targets&&DATA.targets[s]&&DATA.targets[s][curMonth])||null;
     const person=DATA.store_person[s]||null;
-    const storeType=DATA.store_type[s]||'';
     const card=document.createElement('div');
     card.className='store-card'+(d?'':' no-data-card');
     card.dataset.name=s;
 
     if(d){
-      const roy=d.royalty!==undefined?d.royalty:royalty(d.total_sales);
-      const royTgt=tgt?(tgt.royalty!==undefined?tgt.royalty:royalty(tgt.total_sales)):null;
+      const roy=royalty(d.total_sales);
+      const royTgt=tgt?royalty(tgt.total_sales):null;
       const sp=progBadge(d.total_sales,tgt?tgt.total_sales:0);
       const rp=progBadge(roy,royTgt);
       card.onclick=()=>showDetail(s,d,tgt);
 
+      // 売上行
       const salesTgtHtml=tgt
         ?'<span class="card-kgi-target"> / '+fmt(tgt.total_sales)+'</span>'
          +'<span class="card-kgi-progress prog-'+sp.cls+'">'+sp.txt+'</span>'
@@ -802,83 +578,56 @@ function renderList(){
          +'<span class="card-kgi-progress prog-'+rp.cls+'">'+rp.txt+'</span>'
         :'<span class="card-kgi-target" style="color:#e0e0e0"> / —</span>';
 
+      // 新規数
       const np=tgt?progBadge(d.new_count,tgt.new_count):{cls:'none',txt:''};
-      const newTgtHtml=tgt?'<span class="ck-tgt">/ \u76ee\u6a19'+tgt.new_count+'\u4eba</span><span class="ck-prog prog-'+np.cls+'">'+np.txt+'</span>':'';
+      const newTgtHtml=tgt?'<span class="ck-tgt">/ 目標'+tgt.new_count+'人</span><span class="ck-prog prog-'+np.cls+'">'+np.txt+'</span>':'';
+      // 新規契約数
       const cp=tgt?progBadge(d.new_contract_count,tgt.new_contract_count):{cls:'none',txt:''};
-      const contTgtHtml=tgt?'<span class="ck-tgt">/ \u76ee\u6a19'+tgt.new_contract_count+'\u4ef6</span><span class="ck-prog prog-'+cp.cls+'">'+cp.txt+'</span>':'';
+      const contTgtHtml=tgt?'<span class="ck-tgt">/ 目標'+tgt.new_contract_count+'件</span><span class="ck-prog prog-'+cp.cls+'">'+cp.txt+'</span>':'';
 
-      const personBadge=person&&curPerson==='\u5168\u5e97\u8217'
+      const badgeHtml=person&&curPerson==='全店舗'
         ?'<span class="card-person-badge">'+person+'</span>':'';
-      const typeBadge=storeType
-        ?'<span class="store-type-badge '+(storeType==='\u76f4\u55b6'?'direct':'franchise')+'">'+storeType+'</span>':'';
 
       card.innerHTML=
-        '<div class="card-header"><div class="card-name">'+s+typeBadge+'</div>'+personBadge+'</div>'+
-        '<div class="card-arrow">\u203a</div>'+
+        '<div class="card-header"><div class="card-name">'+s+'</div>'+badgeHtml+'</div>'+
+        '<div class="card-arrow">›</div>'+
         '<div class="card-kgi-block">'+
           '<div class="card-kgi-row">'+
             '<span class="card-kgi-actual">'+fmt(d.total_sales)+'</span>'+salesTgtHtml+
           '</div>'+
-          '<div class="card-kgi-label"><span class="kgi-label-item">\u7dcf\u58f2\u4e0a</span></div>'+
+          '<div class="card-kgi-label">'+
+            '<span class="kgi-label-item">総売上</span>'+
+          '</div>'+
           '<div class="card-kgi-row" style="margin-top:6px">'+
             '<span class="card-kgi-actual" style="font-size:17px;color:#9b59b6">'+fmt(roy)+'</span>'+royTgtHtml+
           '</div>'+
-          '<div class="card-kgi-label"><span>\u30ed\u30a4\u30e4\u30ea\u30c6\u30a3</span></div>'+
+          '<div class="card-kgi-label"><span>ロイヤリティ</span></div>'+
         '</div>'+
         '<div class="card-kpis">'+
           '<div class="card-kpi ck-new">'+
-            '<div class="ck-label">\u65b0\u898f\u6570</div>'+
-            '<div><span class="ck-actual">'+d.new_count+'<span style="font-size:11px;font-weight:500;margin-left:1px">\u4eba</span></span></div>'+
+            '<div class="ck-label">新規数</div>'+
+            '<div><span class="ck-actual">'+d.new_count+'<span style="font-size:11px;font-weight:500;margin-left:1px">人</span></span></div>'+
             '<div>'+newTgtHtml+'</div>'+
           '</div>'+
           '<div class="card-kpi ck-contract">'+
-            '<div class="ck-label">\u65b0\u898f\u5951\u7d04\u6570</div>'+
-            '<div><span class="ck-actual">'+d.new_contract_count+'<span style="font-size:11px;font-weight:500;margin-left:1px">\u4ef6</span></span></div>'+
+            '<div class="ck-label">新規契約数</div>'+
+            '<div><span class="ck-actual">'+d.new_contract_count+'<span style="font-size:11px;font-weight:500;margin-left:1px">件</span></span></div>'+
             '<div>'+contTgtHtml+'</div>'+
           '</div>'+
           '<div class="card-kpi ck-price">'+
-            '<div class="ck-label">\u65b0\u898f\u5951\u7d04\u5358\u4fa1</div>'+
+            '<div class="ck-label">新規契約単価</div>'+
             '<div class="ck-actual">'+(d.new_contract_count>0&&d.new_contract_unit_price>0?fmt(d.new_contract_unit_price):'—')+'</div>'+
           '</div>'+
           '<div class="card-kpi ck-rate">'+
-            '<div class="ck-label">\u65b0\u898f\u5951\u7d04\u7387</div>'+
+            '<div class="ck-label">新規契約率</div>'+
             '<div class="ck-actual">'+d.new_contract_rate+'<span style="font-size:11px;font-weight:500">%</span></div>'+
           '</div>'+
         '</div>';
     }else{
-      card.innerHTML='<div class="card-header"><div class="card-name">'+s+'</div></div><div class="no-data-badge">\u30c7\u30fc\u30bf\u306a\u3057</div>';
+      card.innerHTML='<div class="card-header"><div class="card-name">'+s+'</div></div><div class="no-data-badge">データなし</div>';
     }
     grid.appendChild(card);
   });
-}
-
-function renderStats(stores,md){
-  const panel=document.getElementById('statsPanel');
-  const salesList=stores.map(s=>md[s]?md[s].total_sales:null).filter(v=>v!==null&&v>0);
-  if(salesList.length===0){panel.style.display='none';return;}
-
-  const avg=v=>Math.round(v.reduce((a,b)=>a+b,0)/v.length);
-  const median=v=>{const s=[...v].sort((a,b)=>a-b);const m=Math.floor(s.length/2);return s.length%2===0?Math.round((s[m-1]+s[m])/2):s[m];};
-
-  const avgSales=avg(salesList),medSales=median(salesList);
-  const newList=stores.map(s=>md[s]?md[s].new_count:null).filter(v=>v!==null);
-  const avgNew=newList.length>0?Math.round(avg(newList)*10)/10:null;
-  const medNew=newList.length>0?median(newList):null;
-  const rateList=stores.map(s=>md[s]?md[s].new_contract_rate:null).filter(v=>v!==null&&v>0);
-  const avgRate=rateList.length>0?(Math.round(avg(rateList)*10)/10):null;
-  const medRate=rateList.length>0?(Math.round(median(rateList)*10)/10):null;
-
-  panel.style.display='';
-  document.getElementById('statAvgSales').textContent='\xa5'+avgSales.toLocaleString('ja-JP');
-  document.getElementById('statMedSales').textContent='\u4e2d\u592e\u5024 \xa5'+medSales.toLocaleString('ja-JP');
-  document.getElementById('statMedSalesLbl').textContent='';
-  document.getElementById('statAvgNew').textContent=avgNew!==null?avgNew+'\u4eba\u5e73\u5747':'—';
-  document.getElementById('statMedNew').textContent=medNew!==null?'\u4e2d\u592e\u5024 '+medNew+'\u4eba':'—';
-  document.getElementById('statMedNewLbl').textContent='';
-  document.getElementById('statAvgRate').textContent=avgRate!==null?avgRate+'%\u5e73\u5747':'—';
-  document.getElementById('statMedRate').textContent=medRate!==null?'\u4e2d\u592e\u5024 '+medRate+'%':'—';
-  document.getElementById('statMedRateLbl').textContent='';
-  document.getElementById('statCount').textContent=salesList.length+'\u5e97\u8217\u306e\u7d71\u8a08';
 }
 
 function filterCards(){
@@ -913,8 +662,8 @@ function showDetail(store,d,tgt){
   setEl('detailName',store);
   setEl('detailPeriod',(MONTH_MAP[curMonth]||curMonth)+' の実績');
 
-  const roy=d.royalty!==undefined?d.royalty:royalty(d.total_sales);
-  const royTgt=tgt?(tgt.royalty!==undefined?tgt.royalty:royalty(tgt.total_sales)):null;
+  const roy=royalty(d.total_sales);
+  const royTgt=tgt?royalty(tgt.total_sales):null;
 
   // KGIバー 総売上
   setEl('dSales',fmt(d.total_sales));
